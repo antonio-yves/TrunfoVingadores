@@ -1,0 +1,44 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block content %}
+<meta http-equiv="refresh" content="60">
+<div class="container" style="margin-top: 15px;">
+    {% if mensage %}
+    <div class="alert alert-danger" role="alert">
+        {{mensage}}
+        <br>Para convidar um amigo, envie o link da partida! =)
+    </div>
+    {% else %}
+    <div>
+        <div>
+            {% if partida.player_one == request.user %}
+            <h5>Cartas do Jogador: {{partida.player_two.username}}</h5>
+            {% else %}
+            <h5>Cartas do Jogador: {{partida.player_one.username}}</h5>
+            {% endif %}
+            <h6>Categoria da Partida: {{partida.category}}</h6>
+        </div>
+        {% for card in cards %}
+        <img src="http://lh4.ggpht.com/-lwcsj3UVuWA/UVYcNyriF9I/AAAAAAAArp8/fjUT2r2Q0Ic/BA%252520Trunfo%252520%2525286%252529_thumb.jpg?imgmax=800" width="130">
+        {% endfor %}
+    </div>
+    <div style="text-align: center; margin-bottom: 15px; margin-top: 15px;">
+        {% if partida.player_one == request.user %}
+        <h3>Aguardando Jogada do 2º Jogador</h3>
+        {% else %}
+        <h3>Aguardando Jogada do 1º Jogador</h3>
+        {% endif %}
+    </div>
+    <div>
+        <div>
+            <h5>Cartas do Jogador: {{request.user.username}}</h5>
+            <h6>Categoria da Partida: {{partida.category}}</h6>
+        </div>
+        {% for card in cards %}
+        <img src="/media/{{card.card.card}}" width="130">
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

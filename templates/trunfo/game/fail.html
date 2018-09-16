@@ -1,0 +1,30 @@
+{% extends '../base.html' %}
+{% block content %}
+
+<div class="container">
+	<div class="row">
+    <div class="col-md-8">
+      <div class="my-4">
+        <div class="alert alert-danger" role="alert">
+          {% if kwargs %}
+          {{kwargs}} <a href="{% url 'hangman:add-word' %}">Clique aqui para cadastrar novas palavras</a> ou <a href="{% url 'hangman:profile' %}">clique aqui para voltar a página de perfil.</a>
+          {% else %}
+          {{error}} <a href="{% url 'hangman:profile' %}">Clique aqui para voltar a página de perfil.</a>
+          {% endif %}
+        </div>
+      </div>  
+    </div>
+    
+		<div class="col-md-4">
+      <!-- Side Widget -->
+      <div class="card my-4">
+        <h5 class="card-header">Sobre</h5>
+        <div class="card-body">
+          Um simples Jogo da Forca, desenvolvido em Django com muito &hearts;
+        </div>
+      </div>
+    </div>
+	</div>
+</div>
+
+{% endblock %}

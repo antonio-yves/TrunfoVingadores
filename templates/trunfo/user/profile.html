@@ -1,0 +1,88 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-8">
+
+          <h1 class="my-4"><small>Perfil do Usuário</small></h1>
+
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ModalGame">
+           <i class="fas fa-plus"></i> Partida
+          </button>
+
+          <div class="modal fade" id="ModalGame" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Criação de Partida</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="alert alert-danger" role="alert">
+                    Deseja realmente criar uma nova partida?
+                    <br>Uma vez criada, a partida não poderá ser excluída.
+                  </div>
+                </div>
+                  <form method="post" action="{% url 'trunfo:create-game' %}">
+                    {% csrf_token %}
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-success">Confirmar</button>
+                    </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 15px;">
+          	<table class="table">
+          		<thead>
+          			<tr>
+          				<th scope="col">Partida Nº</th>
+                  <th scope="col">Categoria</th>
+          				<th scope="col">Status da Partida</th>
+          			</tr>
+          		</thead>
+          		<tbody>
+                {% if partidas|length == 0 %}
+                <tr>
+                  <td colspan="3" style="text-align: center;"><h3>O usuário não criou partidas</h3></td>
+                </tr>
+                
+                {% else %}
+          			{% for partida in partidas %}
+          			<tr>
+          				<th scope="row"><a href="{% url 'trunfo:game' partida.pk %}">{{ forloop.counter }}</a></th>
+                  <td>{{partida.category}}</td>
+                  {% if partida.status == 0 %}
+          				<td>Aguardando Oponente</td>
+                  {% elif partida.status == 1 %}
+                  <td>Em Andamento</td>
+                  {% else %}
+                  <td>Finalizada</td>
+                  {% endif %}
+          			</tr>
+          			{% endfor %}
+                {% endif %}
+          		</tbody>
+          	</table>
+          </div>			
+		</div>
+
+		<div class="col-md-4">
+          <!-- Side Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Sobre</h5>
+            <div class="card-body">
+              Um simples Jogo de Trunfo com a temática dos Vingadores, desenvolvido em Django com muito &hearts;
+            </div>
+          </div>
+        </div>
+	</div>
+</div>
+{% endblock %}

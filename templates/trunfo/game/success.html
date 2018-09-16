@@ -1,0 +1,22 @@
+{% extends '../base.html' %}
+{% block content %}
+
+<div class="container">
+	<div class="row">
+    <div class="alert alert-success" role="alert">
+      {{kwargs}} <a href="{% url 'hangman:game' partida.pk %}">Clique aqui para iniciar a partida</a> ou <a href="{% url 'hangman:profile' %}">clique aqui para voltar ao seu perfil.</a>
+    </div>
+
+		<div class="col-md-4">
+      <!-- Side Widget -->
+      <div class="card my-4">
+        <h5 class="card-header">Sobre</h5>
+        <div class="card-body">
+          Um simples Jogo da Forca, desenvolvido em Django com muito &hearts;
+        </div>
+      </div>
+    </div>
+	</div>
+</div>
+
+{% endblock %}
