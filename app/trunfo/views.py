@@ -31,7 +31,9 @@ class GameView(LoginRequiredMixin, View):
 				return render(request, 'trunfo/game/game.html', {'mensage': 'Aguardando oponente!!'})
 		else:
 			return render(request, 'trunfo/game/game.html', {'cards': models.Collection.objects.filter(user = self.request.user, game = partida, used = 0), 'partida': partida})
-	
+
+class SelectCard(LoginRequiredMixin, View):
+	pass
 
 class ProfileView(LoginRequiredMixin, TemplateView):
 	def get_context_data(self, **kwargs):

@@ -28,6 +28,19 @@ class Card(CreateUpdateModel):
 		verbose_name = 'Carta'
 		verbose_name_plural = 'Cartas'
 
+class Composition(CreateUpdateModel):
+	card_one = models.ForeignKey('Collection', on_delete = models.CASCADE, related_name = 'cardone', verbose_name = 'Carta Um')
+	card_two = models.ForeignKey('Collection', on_delete = models.CASCADE, related_name = 'cardtwo', verbose_name = 'Carta Dois')
+	game = models.ForeignKey('Game', on_delete = models.CASCADE, related_name = 'games', verbose_name = 'Partida')
+	status = models.IntegerField(verbose_name = 'Status', default = 0)
+
+	def __str__(self):
+		return 'Composição da Partida do Jogador: %s' % self.game.player_one.username
+
+	class Meta:
+		verbose_name = 'Composição'
+		verbose_name_plural = 'Composições'
+
 class Game(CreateUpdateModel):
 	player_one = models.ForeignKey(UUIDUser, on_delete = models.CASCADE, related_name = 'playerone', verbose_name = 'Jogador 1')
 	player_two = models.ForeignKey(UUIDUser, on_delete = models.CASCADE, related_name = 'playertwo',verbose_name = 'Jogador 2')
