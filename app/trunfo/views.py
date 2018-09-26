@@ -31,14 +31,17 @@ class GameView(LoginRequiredMixin, View):
 				return render(request, 'trunfo/game/game.html', {'mensage': 'Aguardando oponente!!'})
 		else:
 			return render(request, 'trunfo/game/game.html', {'cards': models.Collection.objects.filter(user = self.request.user, game = partida, used = 0), 'partida': partida})
-
-class SelectCard(LoginRequiredMixin, View):
-	pass
+	def post(self, request, pk):
+		collection = models.Collection.objects.filter(id = request.POST['card']).first()
+		collection.used = 1
+		collection.save()
+		partida = models.Game.objects.filter(id = pk).first()
+		return render(request, 'trunfo/game/game.html', {'cards': models.Collection.objects.filter(user = self.request.user, game = partida), 'partida': partida})
 
 class ProfileView(LoginRequiredMixin, TemplateView):
 	def get_context_data(self, **kwargs):
 		kwargs['partidas'] = models.Game.objects.filter(player_one = self.request.user)
-		kwargs['partidas'] = models.Game.objects.filter(player_two = self.request.user)
+		kwargs['partidas_two'] = models.Game.objects.filter(player_two = self.request.user)
 		return super(ProfileView, self).get_context_data(**kwargs)
 
 class CreateGameView(LoginRequiredMixin, View):

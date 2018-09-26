@@ -29,15 +29,26 @@
         {% else %}
         <h3>Aguardando Jogada do 1º Jogador</h3>
         {% endif %}
-    </div>
-    <div>
+    </div> 
+    <div> 
         <div>
             <h5>Cartas do Jogador: {{request.user.username}}</h5>
             <h6>Categoria da Partida: {{partida.category}}</h6>
         </div>
-        {% for card in cards %}
-        <img src="/media/{{card.card.card}}" width="130">
-        {% endfor %}
+        <form method="post">
+            {% csrf_token %}
+            <div style="text-align: center;">
+                {% for card in cards %}
+                {% if card.used == 0 %}
+                <button name="card" type="submit" value="{{card.pk}}" class="btn btn-default"><img src="/media/{{card.card.card}}" width="200"></button>
+                {% elif card.used == 1 %}
+                <button name="card" type="submit" value="{{card.pk}}" class="btn btn-danger"><img src="/media/{{card.card.card}}" width="200"></button>
+                {% else %}
+
+                {% endif %}
+                {% endfor %}
+            </div>
+        </form>
     </div>
     {% endif %}
 </div>
